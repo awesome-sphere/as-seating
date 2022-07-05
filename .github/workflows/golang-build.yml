@@ -9,7 +9,7 @@ env:
   BASE_IMG_NAME: ${{ github.repository }}
 
 jobs:
-  build-frontend:
+  build-as-seating:
     runs-on: ubuntu-latest
     permissions:
       contents: read

@@ -6,5 +6,6 @@ type SeatOutputSerializer struct {
 	TheaterId  int    `json:"theater_id"`
 	SeatNumber int    `json:"seat_number"`
 	BookedTime string `json:"booked_time"`
+	Status     string `json:"status"`
 	BookedBy   int    `json:"booked_by"`
 }

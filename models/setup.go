@@ -44,6 +44,7 @@ func InitDatabase() {
 		PrimaryKeyGenerator: sharding.PKPGSequence,
 	}, "time_slots", "seat_infos"))
 	DB = db
+	// db.Create(&SeatInfo{TheaterId: 1, TimeSlotId: 1})
 	// testSharding := UseSharding()
 	// var test []SeatInfo
 	// DB.Model(&SeatInfo{}).Where("theater_id", 1).Find(&test)
