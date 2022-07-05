@@ -15,7 +15,7 @@ var DB *gorm.DB
 func InitDatabase() {
 	dbUser := utils.GetenvOr("POSTGRES_USER", "pkinwza")
 	dbPassword := utils.GetenvOr("POSTGRES_PASSWORD", "securepassword")
-	dbHost := utils.GetenvOr("POSTGRES_HOST", "localhost")
+	dbHost := utils.GetenvOr("POSTGRES_HOST", "127.0.0.1")
 	dbPort := utils.GetenvOr("POSTGRES_PORT", "5432")
 	dbName := utils.GetenvOr("POSTGRES_DB", "as-cinema")
 
