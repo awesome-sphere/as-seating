@@ -6,7 +6,7 @@ import (
 
 type TimeSlot struct {
 	// gorm.Model
-	Id        int64     `json:"id" gorm:"primaryKey;autoincrement;not null"`
+	ID        int64     `json:"id" gorm:"primaryKey;autoincrement;not null"`
 	MovieId   int       `json:"movie_id" gnorm:"not null"`
 	Time      time.Time `json:"time" gnorm:"not null"`
 	TheaterId int       `json:"theater_id" gnorm:"not null"`

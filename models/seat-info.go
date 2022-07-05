@@ -11,7 +11,7 @@ const (
 )
 
 type SeatInfo struct {
-	Id         int64      `json:"id" gorm:"primaryKey;autoincrement;"`
+	ID         int64      `json:"id" gorm:"primaryKey;autoincrement;not null;"`
 	TimeSlotId int        `json:"time_slot_id"`
 	TimeSlot   TimeSlot   `gorm:"foreignKey:time_slot_id; constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	TheaterId  int        `json:"theater_id" gnorm:"not null"`

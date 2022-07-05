@@ -12,7 +12,7 @@ const (
 )
 
 type SeatType struct {
-	Id    int64      `json:"id" gorm:"primaryKey;autoincrement;"`
+	ID    int64      `json:"id" gorm:"primaryKey;autoincrement;"`
 	Price decimal.Decimal `json:"price"`
 	Type  SeatTier        `json:"seat_type" sql:"type:seat_type"`
 }

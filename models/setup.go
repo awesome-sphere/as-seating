@@ -34,8 +34,6 @@ func InitDatabase() {
 		log.Fatal(err)
 	}
 
-	// db.Set("gorm:table_options", "ENGINE=PostgreSQL").AutoMigrate(&TimeSlot{})
-
 	db.AutoMigrate(&SeatType{})
 	db.AutoMigrate(&Seat{}, &Theater{})
 	db.AutoMigrate(&TimeSlots_1{}, &TimeSlots_2{}, &TimeSlots_3{}, &TimeSlots_4{}, &TimeSlots_5{})
@@ -43,11 +41,12 @@ func InitDatabase() {
 	db.Use(sharding.Register(sharding.Config{
 		ShardingKey:         "theater_id",
 		NumberOfShards:      6,
-		PrimaryKeyGenerator: sharding.PKSnowflake,
+		PrimaryKeyGenerator: sharding.PKPGSequence,
 	}, "time_slots", "seat_infos"))
 
-	// db.Create(&Theater{})
+	// db.Create(&Theater{Location: "Test"})
 	// db.Create(&TimeSlot{MovieId: 5, TheaterId: 1})
+	// // fmt.Println(time_slot_result.Id)
 	// db.Create(&SeatInfo{TheaterId: 1, TimeSlotId: 1})
 
 	DB = db
