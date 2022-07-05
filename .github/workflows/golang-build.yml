@@ -2,7 +2,7 @@ name: Build as-seating CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 env:
   REGISTRY: ghcr.io
