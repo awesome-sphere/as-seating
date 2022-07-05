@@ -22,8 +22,9 @@ func validateInput(c *gin.Context) (bool, serializer.GetAllSeatsSerializer) {
 func GetAllSeats(c *gin.Context) {
 	status, validated_input := validateInput(c)
 	if status {
-		var test []models.SeatInfo
-		err := models.DB.Model(&models.SeatInfo{}).Where("theater_id", validated_input.TheaterID).Find(&test).Error
+		var querySet []models.SeatInfo
+		var selectedColumnQuerySet []serializer.SeatOutputSerializer
+		err := models.DB.Model(&models.SeatInfo{}).Where("theater_id", validated_input.TheaterID).Find(&querySet).Find(&selectedColumnQuerySet).Error
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{
 				"error": err.Error(),
@@ -32,7 +33,7 @@ func GetAllSeats(c *gin.Context) {
 		}
 		// fmt.Printf("%#v\n", test)
 		c.JSON(http.StatusOK, gin.H{
-			"test": test,
+			"seats_info": selectedColumnQuerySet,
 		})
 	}
 	return
