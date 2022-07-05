@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/awesome-sphere/as-seating/utils"
 	"gorm.io/driver/postgres"
@@ -18,6 +19,11 @@ func InitDatabase() {
 	dbHost := utils.GetenvOr("POSTGRES_HOST", "127.0.0.1")
 	dbPort := utils.GetenvOr("POSTGRES_PORT", "5432")
 	dbName := utils.GetenvOr("POSTGRES_DB", "as-cinema")
+	theater_amount := utils.GetenvOr("THEATER_AMOUNT", "5")
+	theater_number, err := strconv.Atoi(theater_amount)
+	if err != nil {
+		log.Fatal("Fail to convert type of THEATER_AMOUNT")
+	}
 
 	dbURL := fmt.Sprintf(
 		"postgres://%s:%s@%s:%s/%s",
@@ -36,17 +42,24 @@ func InitDatabase() {
 
 	db.AutoMigrate(&SeatType{})
 	db.AutoMigrate(&Seat{}, &Theater{})
-	db.AutoMigrate(&TimeSlots_1{}, &TimeSlots_2{}, &TimeSlots_3{}, &TimeSlots_4{}, &TimeSlots_5{})
-	db.AutoMigrate(&SeatInfos_1{}, &SeatInfos_2{}, &SeatInfos_3{}, &SeatInfos_4{}, &SeatInfos_5{})
+	for i := 1; i <= theater_number; i++ {
+		time_slot_table := fmt.Sprintf("time_slots_%01d", i)
+		db.AutoMigrate(&TimeSlot{})
+		db.Migrator().RenameTable("time_slots", time_slot_table)
+
+		seat_info_table := fmt.Sprintf("seat_infos_%01d", i)
+		db.AutoMigrate(&SeatInfo{})
+		db.Migrator().RenameTable("seat_infos", seat_info_table)
+
+	}
 	db.Use(sharding.Register(sharding.Config{
 		ShardingKey:         "theater_id",
-		NumberOfShards:      6,
+		NumberOfShards:      uint(theater_number + 1),
 		PrimaryKeyGenerator: sharding.PKPGSequence,
 	}, "time_slots", "seat_infos"))
 	DB = db
-	// db.Create(&SeatInfo{TheaterId: 1, TimeSlotId: 1})
-	// testSharding := UseSharding()
-	// var test []SeatInfo
-	// DB.Model(&SeatInfo{}).Where("theater_id", 1).Find(&test)
-	// fmt.Printf("%#v\n", test)
+	// // Testing
+	// db.Create(&Theater{ID: 2, Location: "Pattaya"})
+	// db.Create(&TimeSlot{ID: 2, MovieId: 1, TheaterId: 2})
+	// db.Create(&SeatInfo{TheaterId: 2, TimeSlotId: 2})
 }
