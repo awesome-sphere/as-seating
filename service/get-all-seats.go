@@ -8,13 +8,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func validateInput(c *gin.Context) (bool, serializer.GetAllSeatsSerializer) {
-	var input_serializer serializer.GetAllSeatsSerializer
+func validateInput(c *gin.Context) (bool, serializer.SeatsInputSerializer) {
+	var input_serializer serializer.SeatsInputSerializer
 	if err := c.BindJSON(&input_serializer); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
-		return false, serializer.GetAllSeatsSerializer{}
+		return false, serializer.SeatsInputSerializer{}
 	}
 	return true, input_serializer
 }

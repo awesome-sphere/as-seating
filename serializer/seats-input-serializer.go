@@ -1,5 +1,5 @@
 package serializer
 
-type GetAllSeatsSerializer struct {
+type SeatsInputSerializer struct {
 	TheaterID int `json:"theater" binding:"required"`
 }
