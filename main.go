@@ -2,16 +2,14 @@ package main
 
 import (
 	"github.com/awesome-sphere/as-seating/models"
+	"github.com/awesome-sphere/as-seating/service"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	server := gin.Default()
-	server.GET("/authentication", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	server_router := gin.Default()
+	server_router.POST("/seating/get_all_seats", service.GetAllSeats)
+	server_router.GET("/seating/get_booked_seats", service.GetBookedSeat)
 	models.InitDatabase()
-	server.Run(":9000") // listen and serve on 0.0.0.0:8080
+	server_router.Run(":9000") // listen and serve on 0.0.0.0:9000
 }

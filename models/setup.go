@@ -43,11 +43,9 @@ func InitDatabase() {
 		NumberOfShards:      6,
 		PrimaryKeyGenerator: sharding.PKPGSequence,
 	}, "time_slots", "seat_infos"))
-
-	// db.Create(&Theater{Location: "Test"})
-	// db.Create(&TimeSlot{MovieId: 5, TheaterId: 1})
-	// // fmt.Println(time_slot_result.Id)
-	// db.Create(&SeatInfo{TheaterId: 1, TimeSlotId: 1})
-
 	DB = db
+	// testSharding := UseSharding()
+	// var test []SeatInfo
+	// DB.Model(&SeatInfo{}).Where("theater_id", 1).Find(&test)
+	// fmt.Printf("%#v\n", test)
 }
