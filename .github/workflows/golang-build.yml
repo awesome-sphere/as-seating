@@ -28,7 +28,7 @@ jobs:
       run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
     - name: Build image
       run: |
-        cd thumbnailer-frontend && docker build . --file Dockerfile --no-cache \
+        docker build . --file Dockerfile --no-cache \
         --tag ghcr.io/${{ env.BASE_IMG_NAME }}/as-seating:${{ steps.vars.outputs.sha_short }} \
         --tag ghcr.io/${{ env.BASE_IMG_NAME }}/as-seating:latest
     - name: Publish the image
