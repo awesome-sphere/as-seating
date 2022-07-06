@@ -14,7 +14,9 @@ func GetAllSeats(c *gin.Context) {
 	if status {
 		var querySet []models.SeatInfo
 		var selectedColumnQuerySet []serializer.SeatOutputSerializer
-		err := models.DB.Model(&models.SeatInfo{}).Where("theater_id", validated_input.TheaterID).Find(&querySet).Find(&selectedColumnQuerySet).Error
+		err := models.DB.Model(&models.SeatInfo{}).Where(
+			"theater_id", validated_input.TheaterID,
+		).Order("id asc").Find(&querySet).Find(&selectedColumnQuerySet).Error
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{
 				"error": err.Error(),

@@ -8,4 +8,5 @@ type SeatOutputSerializer struct {
 	BookedTime string `json:"booked_time"`
 	Status     string `json:"status"`
 	BookedBy   int    `json:"booked_by"`
+	SeatTypeId int    `json:"seat_type_id"`
 }

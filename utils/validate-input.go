@@ -17,3 +17,15 @@ func ValidateInput(c *gin.Context) (bool, serializer.SeatsInputSerializer) {
 	}
 	return true, input_serializer
 }
+
+func ValidateCheckSeatInput(c *gin.Context) (bool, serializer.CheckSeatInputSerializer) {
+	var input_serializer serializer.CheckSeatInputSerializer
+	if err := c.BindJSON(&input_serializer); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return false, serializer.CheckSeatInputSerializer{}
+	}
+	return true, input_serializer
+}
+
