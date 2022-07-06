@@ -59,7 +59,8 @@ func InitDatabase() {
 	}, "time_slots", "seat_infos"))
 	DB = db
 	// // Testing
+	// db.Create(&SeatType{ID: 1, Price: decimal.NewFromFloat(69.9), Type: Standard})
 	// db.Create(&Theater{ID: 2, Location: "Pattaya"})
 	// db.Create(&TimeSlot{ID: 2, MovieId: 1, TheaterId: 2})
-	// db.Create(&SeatInfo{TheaterId: 2, TimeSlotId: 2})
+	// db.Create(&SeatInfo{TheaterId: 2, TimeSlotId: 2, SeatTypeId: 1})
 }
