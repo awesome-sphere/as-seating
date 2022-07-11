@@ -5,7 +5,7 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/awesome-sphere/as-authentication/utils"
+	"github.com/awesome-sphere/as-seating/utils"
 	"github.com/go-redis/redis"
 )
 
