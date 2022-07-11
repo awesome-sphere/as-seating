@@ -1,35 +1,39 @@
 package service
 
 import (
+	"fmt"
 	"net/http"
 
-	"github.com/awesome-sphere/as-seating/models"
-	"github.com/awesome-sphere/as-seating/serializer"
+	"github.com/awesome-sphere/as-seating/redis"
 	"github.com/awesome-sphere/as-seating/utils"
 	"github.com/gin-gonic/gin"
 )
 
 func CheckSeat(c *gin.Context) {
 	status, validated_input := utils.ValidateCheckSeatInput(c)
+
 	if status {
-		var querySet models.SeatInfo
-		var output serializer.CheckSeatOutputSerializer
-		err := models.DB.Model(&models.SeatInfo{}).Where(map[string]interface{}{
-			"theater_id": validated_input.TheaterID, "id": validated_input.SeatID,
-		}).First(&querySet).Find(&output).Error
+		seat_status, err := redis.CLIENT.Get(fmt.Sprintf(
+			"%d-%d-%d",
+			validated_input.TheaterID,
+			validated_input.TimeSlotID,
+			validated_input.SeatID,
+		)).Result()
+
 		if err != nil {
-			if err.Error() == "record not found" {
-				c.JSON(http.StatusNotFound, gin.H{
-					"status": "NOT FOUND",
-				})
-			} else {
-				c.JSON(http.StatusInternalServerError, gin.H{
-					"error": err.Error(),
-				})
-			}
+			c.JSON(http.StatusNotFound, gin.H{
+				"message": "This seat does not exist.",
+			})
 			return
 		}
-		c.JSON(http.StatusOK, output)
+
+		c.JSON(http.StatusOK, gin.H{
+			"status":  seat_status,
+			"message": "Successfully checked seat.",
+		})
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Invalid input.",
+		})
 	}
-	return
 }
