@@ -12,9 +12,6 @@ import (
 func InitSeats(c *gin.Context) {
 	status, validated_input := utils.ValidateInput(c)
 	if !status {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Invalid input.",
-		})
 		return
 	}
 	for i := 1; i <= 55; i++ {

@@ -20,8 +20,8 @@ func extractSeatID(iterVal string) int {
 	return seatID
 }
 
-func ScanPrefix(theaterID int64, timeSlotID int64, status string) ([]serializer.SeatOutputSerializer, error) {
-	output := make([]serializer.SeatOutputSerializer, 0)
+func ScanPrefix(theaterID int64, timeSlotID int64, status string) ([]serializer.SeatModelSerializer, error) {
+	output := make([]serializer.SeatModelSerializer, 0)
 	noFilter := status == ""
 
 	prefix := fmt.Sprintf("%d-%d-*", theaterID, timeSlotID)
@@ -30,7 +30,7 @@ func ScanPrefix(theaterID int64, timeSlotID int64, status string) ([]serializer.
 		if seatID := extractSeatID(iter.Val()); seatID > 0 {
 			res, _ := CLIENT.Get(iter.Val()).Result()
 			if noFilter || res == status {
-				output = append(output, serializer.SeatOutputSerializer{
+				output = append(output, serializer.SeatModelSerializer{
 					SeatID:     seatID,
 					TimeSlotID: timeSlotID,
 					TheaterID:  theaterID,

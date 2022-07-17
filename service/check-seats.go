@@ -31,9 +31,5 @@ func CheckSeat(c *gin.Context) {
 			"status":  seat_status,
 			"message": "Successfully checked seat.",
 		})
-	} else {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Invalid input.",
-		})
 	}
 }
