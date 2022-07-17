@@ -52,8 +52,9 @@ func connectKafka() *kafka.Conn {
 }
 
 func InitKafkaTopic() {
-	TOPIC := utils.GetenvOr("KAFKA_TOPIC", "seating")
-	PARTITION, err := strconv.Atoi(utils.GetenvOr("KAFKA_TOPIC_PARTITION", "5"))
+	TOPIC = utils.GetenvOr("KAFKA_TOPIC", "seating")
+	var err error
+	PARTITION, err = strconv.Atoi(utils.GetenvOr("KAFKA_TOPIC_PARTITION", "5"))
 	if err != nil {
 		panic(err.Error())
 	}

@@ -14,12 +14,15 @@ func UpdateStatus(c *gin.Context) {
 	if !status {
 		return
 	}
-	kafka.SendToConsumer(
+	go kafka.SendToConsumer(
 		validatedInput.TheaterID,
 		validatedInput.TimeSlotID,
 		validatedInput.SeatID,
 		validatedInput.Status,
 	)
+
+	kafka.ReadMessage(kafka.TOPIC)
+
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Updating status...",
 	})

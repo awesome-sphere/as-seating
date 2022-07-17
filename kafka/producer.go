@@ -12,11 +12,11 @@ import (
 	"github.com/segmentio/kafka-go/snappy"
 )
 
-func pushMessage(topic_name string, key_parition string, value *interfaces.WriterInterface) {
+func pushMessage(topic_name string, key_partition int, value *interfaces.WriterInterface) {
 	config := kafka.WriterConfig{
 		Brokers:          []string{KAFKA_LOCATION},
 		Topic:            topic_name,
-		Balancer:         &kafka.LeastBytes{},
+		Balancer:         &PartitionBalancer{},
 		WriteTimeout:     10 * time.Second,
 		ReadTimeout:      10 * time.Second,
 		CompressionCodec: snappy.NewCompressionCodec(),
@@ -27,11 +27,13 @@ func pushMessage(topic_name string, key_parition string, value *interfaces.Write
 	new_byte_buffer := new(bytes.Buffer)
 	json.NewEncoder(new_byte_buffer).Encode(value)
 
+	fmt.Printf("Sending message to %s/%d\n", topic_name, key_partition)
+
 	err := writer_connector.WriteMessages(
 		context.Background(),
 		kafka.Message{
-			Key:   []byte(key_parition),
-			Value: new_byte_buffer.Bytes(),
+			Partition: key_partition,
+			Value:     new_byte_buffer.Bytes(),
 		},
 	)
 	if err != nil {
@@ -40,8 +42,7 @@ func pushMessage(topic_name string, key_parition string, value *interfaces.Write
 }
 
 func SendToConsumer(theaterID int64, timeslotID int64, seatID int, status string) {
-	partitionKey := fmt.Sprintf("%d", theaterID)
-	pushMessage(TOPIC, partitionKey, &interfaces.WriterInterface{
+	pushMessage(TOPIC, int(theaterID), &interfaces.WriterInterface{
 		TheaterID:  theaterID,
 		TimeSlotID: timeslotID,
 		SeatID:     seatID,
