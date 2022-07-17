@@ -7,5 +7,5 @@
 | `KAFKA_PORT`     | `9092`        |
 | `REDIS_HOST`     | `localhost`   | 
 | `REDIS_PORT`     | `6379`        | 
-| `REDIS_PASSWORD` | `localhost`   |
+| `REDIS_PASSWORD` | `*********`   |
 | `REDIS_DB`       | `0`           | 
