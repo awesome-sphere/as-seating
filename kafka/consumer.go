@@ -16,6 +16,8 @@ func initReader(topic_name string, partition int) {
 		GroupID:  "seating-status-consumer",
 	}
 	reader_connector := kafka.NewReader(config)
+	defer reader_connector.Close()
+
 	for {
 		msg, err := reader_connector.ReadMessage(context.Background())
 		if err != nil {
