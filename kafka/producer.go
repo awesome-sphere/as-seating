@@ -12,28 +12,28 @@ import (
 	"github.com/segmentio/kafka-go/snappy"
 )
 
-func pushMessage(topic_name string, key_partition int, value *interfaces.WriterInterface) {
+func pushMessage(topic string, partition int, value *interfaces.WriterInterface) {
 	config := kafka.WriterConfig{
 		Brokers:          []string{KAFKA_LOCATION},
-		Topic:            topic_name,
+		Topic:            topic,
 		Balancer:         &PartitionBalancer{},
 		WriteTimeout:     10 * time.Second,
 		ReadTimeout:      10 * time.Second,
 		CompressionCodec: snappy.NewCompressionCodec(),
 	}
-	writer_connector := kafka.NewWriter(config)
-	defer writer_connector.Close()
+	writer := kafka.NewWriter(config)
+	defer writer.Close()
 
-	new_byte_buffer := new(bytes.Buffer)
-	json.NewEncoder(new_byte_buffer).Encode(value)
+	byteBuffer := new(bytes.Buffer)
+	json.NewEncoder(byteBuffer).Encode(value)
 
-	fmt.Printf("Sending message to %s/%d\n", topic_name, key_partition)
+	fmt.Printf("Sending message to %s/%d\n", topic, partition)
 
-	err := writer_connector.WriteMessages(
+	err := writer.WriteMessages(
 		context.Background(),
 		kafka.Message{
-			Partition: key_partition,
-			Value:     new_byte_buffer.Bytes(),
+			Partition: partition,
+			Value:     byteBuffer.Bytes(),
 		},
 	)
 	if err != nil {

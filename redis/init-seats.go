@@ -1,17 +1,16 @@
-package service
+package redis
 
 import (
 	"net/http"
 
-	"github.com/awesome-sphere/as-seating/redis"
 	"github.com/gin-gonic/gin"
 )
 
 func InitSeats(c *gin.Context) {
 	for theater := 1; theater <= 5; theater++ {
-		for timeSlot := 1; timeSlot <= 3; timeSlot++ {
+		for timeSlot := 1; timeSlot <= 15; timeSlot++ {
 			for seat := 1; seat <= 55; seat++ {
-				redis.UpdateStatus(int64(theater), int64(timeSlot), seat, redis.AVAILABLE, false)
+				UpdateStatus(int64(theater), int64(timeSlot), seat, AVAILABLE, false)
 			}
 		}
 	}

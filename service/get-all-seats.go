@@ -9,12 +9,12 @@ import (
 )
 
 func GetAllSeats(c *gin.Context) {
-	status, validated_input := utils.ValidateInput(c)
+	status, validatedInput := utils.ValidateInput(c)
 	if !status {
 		return
 	}
 
-	output, err := redis.ScanPrefix(validated_input.TheaterID, validated_input.TimeSlotID, "")
+	output, err := redis.ScanPrefix(validatedInput.TheaterID, validatedInput.TimeSlotID, "")
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{

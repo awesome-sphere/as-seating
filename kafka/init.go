@@ -31,13 +31,13 @@ func listTopic(connector *kafka.Conn) map[string]*interfaces.TopicInterface {
 }
 
 func doesTopicExist(connector *kafka.Conn, topic_name string) bool {
-	topic_map := listTopic(connector)
-	_, ok := topic_map[topic_name]
+	topics := listTopic(connector)
+	_, ok := topics[topic_name]
 	return ok
 }
 
 func connectKafka() *kafka.Conn {
-	KAFKA_LOCATION := fmt.Sprintf(
+	KAFKA_LOCATION = fmt.Sprintf(
 		"%s:%s",
 		utils.GetenvOr("KAFKA_HOST", "localhost"),
 		utils.GetenvOr("KAFKA_PORT", "9092"),

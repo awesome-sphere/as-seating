@@ -12,17 +12,21 @@ func CheckSeat(c *gin.Context) {
 	status, validated_input := utils.ValidateCheckSeatInput(c)
 
 	if status {
-		seat_status, err := redis.ReadStatus(validated_input)
+		seatStatus, err := redis.ReadStatus(validated_input)
 
 		if err != nil {
-			c.JSON(http.StatusNotFound, gin.H{
-				"message": "This seat does not exist.",
-			})
-			return
+			redis.UpdateStatus(
+				validated_input.TheaterID,
+				validated_input.TimeSlotID,
+				int(validated_input.SeatID),
+				redis.AVAILABLE,
+				false,
+			)
+			seatStatus = redis.AVAILABLE
 		}
 
 		c.JSON(http.StatusOK, gin.H{
-			"status":  seat_status,
+			"status":  seatStatus,
 			"message": "Successfully checked seat.",
 		})
 	}

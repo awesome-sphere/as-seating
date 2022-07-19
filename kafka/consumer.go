@@ -19,15 +19,15 @@ func initReader(topic_name string, groupBalancers []kafka.GroupBalancer) *kafka.
 		GroupID:        "seating-status-consumer",
 		GroupBalancers: groupBalancers,
 	}
-	reader_connector := kafka.NewReader(config)
-	return reader_connector
+	reader := kafka.NewReader(config)
+	return reader
 }
 
-func readFromReader(reader_connector *kafka.Reader) {
-	defer reader_connector.Close()
+func readFromReader(reader *kafka.Reader) {
+	defer reader.Close()
 
 	for {
-		msg, err := reader_connector.ReadMessage(context.Background())
+		msg, err := reader.ReadMessage(context.Background())
 		if err != nil {
 			log.Fatalf("Error while reading message: %v", err)
 			continue
