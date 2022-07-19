@@ -12,7 +12,11 @@ func CheckSeat(c *gin.Context) {
 	status, validated_input := utils.ValidateCheckSeatInput(c)
 
 	if status {
-		seatStatus, err := redis.ReadStatus(validated_input)
+		seatStatus, err := redis.ReadStatus(
+			validated_input.TheaterID,
+			validated_input.TimeSlotID,
+			validated_input.SeatID,
+		)
 
 		if err != nil {
 			redis.UpdateStatus(

@@ -32,4 +32,6 @@ func InitializeRedisConn() {
 		Password: redisPassword,
 		DB:       redisDB,
 	})
+
+	InitSeats()
 }

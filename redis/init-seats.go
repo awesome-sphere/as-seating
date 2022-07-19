@@ -1,21 +1,22 @@
 package redis
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"log"
 )
 
-func InitSeats(c *gin.Context) {
+func InitSeats() {
 	for theater := 1; theater <= 5; theater++ {
-		for timeSlot := 1; timeSlot <= 15; timeSlot++ {
+		theater := int64(theater)
+		for timeSlot := 1; timeSlot <= 5*5*5; timeSlot++ {
+			timeSlot := int64(timeSlot)
 			for seat := 1; seat <= 55; seat++ {
-				UpdateStatus(int64(theater), int64(timeSlot), seat, AVAILABLE, false)
+				seatStatus, err := ReadStatus(theater, timeSlot, int64(seat))
+				if err == nil && seatStatus != AVAILABLE {
+					UpdateStatus(theater, timeSlot, int(seat), AVAILABLE, seat == 1 && timeSlot%50 == 1)
+				}
 			}
 		}
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Successfully initialized seats.",
-	})
+	log.Printf("Initialized seats.")
 }
