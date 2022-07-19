@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/awesome-sphere/as-seating/redis"
@@ -13,12 +12,7 @@ func CheckSeat(c *gin.Context) {
 	status, validated_input := utils.ValidateCheckSeatInput(c)
 
 	if status {
-		seat_status, err := redis.CLIENT.Get(fmt.Sprintf(
-			"%d-%d-%d",
-			validated_input.TheaterID,
-			validated_input.TimeSlotID,
-			validated_input.SeatID,
-		)).Result()
+		seat_status, err := redis.ReadStatus(validated_input)
 
 		if err != nil {
 			c.JSON(http.StatusNotFound, gin.H{

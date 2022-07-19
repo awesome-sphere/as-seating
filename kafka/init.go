@@ -34,7 +34,6 @@ func doesTopicExist(connector *kafka.Conn, topic_name string) bool {
 	topic_map := listTopic(connector)
 	_, ok := topic_map[topic_name]
 	return ok
-
 }
 
 func connectKafka() *kafka.Conn {
@@ -76,4 +75,8 @@ func InitKafkaTopic() {
 			panic(err.Error())
 		}
 	}
+
+	// FIXME: REMOVE THIS LINE; DO NOT DO THIS
+	// THIS IS JUST FOR TESTING
+	ReadMessage(TOPIC)
 }

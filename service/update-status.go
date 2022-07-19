@@ -21,10 +21,6 @@ func UpdateStatus(c *gin.Context) {
 		validatedInput.Status,
 	)
 
-	// FIXME: REMOVE THIS LINE; DO NOT DO THIS
-	// THIS IS JUST FOR TESTING
-	kafka.ReadMessage(kafka.TOPIC)
-
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Updating status...",
 	})
