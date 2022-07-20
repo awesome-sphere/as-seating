@@ -5,6 +5,7 @@ import (
 )
 
 func InitSeats() {
+	// FIXME: update to use the correct id's according to booking svc
 	for theater := 1; theater <= 5; theater++ {
 		theater := int64(theater)
 		for timeSlot := 1; timeSlot <= 5*5*5; timeSlot++ {
