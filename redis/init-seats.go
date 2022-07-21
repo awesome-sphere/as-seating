@@ -8,7 +8,7 @@ func initSeats() {
 
 	for theater := 1; theater <= 5; theater++ {
 		theater := int64(theater)
-		for timeSlot := (125*theater - 1); timeSlot <= (125*theater-1)+(5*5*5); timeSlot++ {
+		for timeSlot := (125 * (theater - 1)) + 1; timeSlot <= (125*theater-1)+(5*5*5); timeSlot++ {
 			timeSlot := int64(timeSlot)
 			// for seat := 1; seat <= utils.TertiaryOperator(timeSlot == 263, 20, 40).(int); seat++ {
 			for seat := 1; seat <= 55; seat++ {
