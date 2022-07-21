@@ -75,8 +75,4 @@ func InitKafkaTopic() {
 			panic(err.Error())
 		}
 	}
-
-	// FIXME: REMOVE THIS LINE; DO NOT DO THIS
-	// THIS IS JUST FOR TESTING
-	ReadMessage(TOPIC)
 }

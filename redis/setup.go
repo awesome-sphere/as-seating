@@ -33,5 +33,5 @@ func InitializeRedisConn() {
 		DB:       redisDB,
 	})
 
-	InitSeats()
+	initSeats()
 }
