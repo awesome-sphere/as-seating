@@ -9,7 +9,7 @@ import (
 
 func main() {
 	router := gin.Default()
-	router.GET("/seating/get-all-seats", service.GetAllSeats)
+	router.POST("/seating/get-all-seats", service.GetAllSeats)
 	router.GET("/seating/get-booked-seats", service.GetBookedSeat)
 	router.GET("/seating/check-seat", service.CheckSeat)
 
