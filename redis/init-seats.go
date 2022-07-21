@@ -14,7 +14,7 @@ func initSeats() {
 			timeSlot := int64(timeSlot)
 			for seat := 1; seat <= utils.TertiaryOperator(timeSlot == 263, 20, 40).(int); seat++ {
 				seatStatus, err := ReadStatus(theater, timeSlot, int64(seat))
-				if err == nil && seatStatus != AVAILABLE {
+				if err != nil || seatStatus != AVAILABLE {
 					UpdateStatus(theater, timeSlot, seat, AVAILABLE, seat == 1 && timeSlot%50 == 1)
 				}
 			}
